@@ -9,7 +9,6 @@ class PartyTests(unittest.TestCase):
 
     def setUp(self):
         """Stuff to do before every test."""
-        
         self.client = app.test_client()
         app.config['TESTING'] = True
 
@@ -59,6 +58,10 @@ class PartyTestsDatabase(unittest.TestCase):
         # Create tables and add sample data (uncomment when testing database)
         db.create_all()
         example_data()
+        
+        with self.client as c:
+            with c.session_transaction() as sess:
+                sess['RSVP'] = True
 
     def tearDown(self):
         """Do at end of every test."""
